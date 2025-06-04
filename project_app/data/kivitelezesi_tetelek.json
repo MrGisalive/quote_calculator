@@ -1,0 +1,162 @@
+[
+  {
+    "nev": "Konnektor csere",
+    "egyseg": "db",
+    "egysegar": 8000
+  },
+  {
+    "nev": "Kapcsoló csere",
+    "egyseg": "db",
+    "egysegar": 7000
+  },
+  {
+    "nev": "Lámpatest felszerelése",
+    "egyseg": "db",
+    "egysegar": 10000
+  },
+  {
+    "nev": "Biztosítéktábla csere (6 kismegszakítóig)",
+    "egyseg": "db",
+    "egysegar": 69000
+  },
+  {
+    "nev": "Fi-relé beépítése (1 fázis)",
+    "egyseg": "db",
+    "egysegar": 24000
+  },
+  {
+    "nev": "Fi-relé beépítése (3 fázis)",
+    "egyseg": "db",
+    "egysegar": 28000
+  },
+  {
+    "nev": "Áramkör bővítése kismegszakítóval",
+    "egyseg": "db",
+    "egysegar": 3000
+  },
+  {
+    "nev": "Falhorony vésés és gipszelés",
+    "egyseg": "fm",
+    "egysegar": 3000
+  },
+  {
+    "nev": "Kábelcsatorna elhelyezése",
+    "egyseg": "fm",
+    "egysegar": 1500
+  },
+  {
+    "nev": "Vezeték behúzás falban",
+    "egyseg": "fm",
+    "egysegar": 2500
+  },
+  {
+    "nev": "Dugalj áramkör kiépítése",
+    "egyseg": "db",
+    "egysegar": 15000
+  },
+  {
+    "nev": "Világítási áramkör kiépítése",
+    "egyseg": "db",
+    "egysegar": 13000
+  },
+  {
+    "nev": "Elosztószekrény szerelés",
+    "egyseg": "db",
+    "egysegar": 50000
+  },
+  {
+    "nev": "Földelés telepítése",
+    "egyseg": "db",
+    "egysegar": 12000
+  },
+  {
+    "nev": "Védőcső elhelyezés betonba",
+    "egyseg": "fm",
+    "egysegar": 5000
+  },
+  {
+    "nev": "Villanytűzhely bekötése",
+    "egyseg": "db",
+    "egysegar": 25000
+  },
+  {
+    "nev": "Sütő bekötése",
+    "egyseg": "db",
+    "egysegar": 25000
+  },
+  {
+    "nev": "Villanytűzhely tápkábel kiépítése",
+    "egyseg": "fm",
+    "egysegar": 7000
+  },
+  {
+    "nev": "Sütő tápkábel kiépítése",
+    "egyseg": "fm",
+    "egysegar": 7000
+  },
+  {
+    "nev": "Túlfeszültség elleni védelem (1 fázis)",
+    "egyseg": "db",
+    "egysegar": 60000
+  },
+  {
+    "nev": "Túlfeszültség elleni védelem (3 fázis)",
+    "egyseg": "db",
+    "egysegar": 90000
+  },
+  {
+    "nev": "Villamos biztonsági felülvizsgálat (lakóingatlan 70 m²-ig)",
+    "egyseg": "alkalom",
+    "egysegar": 50000
+  },
+  {
+    "nev": "Villamos biztonsági felülvizsgálat (lakóingatlan 71–120 m²)",
+    "egyseg": "alkalom",
+    "egysegar": 65000
+  },
+  {
+    "nev": "Érintésvédelmi felülvizsgálat (alapdíj)",
+    "egyseg": "alkalom",
+    "egysegar": 30000
+  },
+  {
+    "nev": "Érintésvédelmi felülvizsgálat (mérési pontonként)",
+    "egyseg": "db",
+    "egysegar": 250
+  },
+  {
+    "nev": "Áramvédő kapcsoló (Fi-relé) műszeres vizsgálata",
+    "egyseg": "db",
+    "egysegar": 2500
+  },
+  {
+    "nev": "Szigetelési ellenállás mérése",
+    "egyseg": "db",
+    "egysegar": 2000
+  },
+  {
+    "nev": "EPH nyilatkozat, jegyzőkönyv",
+    "egyseg": "alkalom",
+    "egysegar": 25000
+  },
+  {
+    "nev": "Erősáramú berendezések időszakos tűzvédelmi felülvizsgálata",
+    "egyseg": "db",
+    "egysegar": 250
+  },
+  {
+    "nev": "Hőkamerás vizsgálat jegyzőkönyvvel",
+    "egyseg": "alkalom",
+    "egysegar": 20000
+  },
+  {
+    "nev": "Villamos kéziszerszámok vizsgálata",
+    "egyseg": "db",
+    "egysegar": 900
+  },
+  {
+    "nev": "Elektromos járművek bevizsgálása",
+    "egyseg": "db",
+    "egysegar": 28000
+  }
+]
