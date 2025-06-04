@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-def open_item_selector(parent, items, callback):
+def open_item_selector(parent, db_handler, callback):
     selector = tk.Toplevel(parent)
     selector.title("Tételek kiválasztása")
     selector.geometry("800x500")
@@ -13,9 +13,10 @@ def open_item_selector(parent, items, callback):
     listbox = tk.Listbox(selector, height=12)
     listbox.pack(fill="both", expand=True, padx=10, pady=5)
 
-    # Keresőfüggvény, ami szűri a listát
+    # 🔍 Valós idejű adatbázis keresés
     def search_items(query):
         q = query.lower()
+        items = db_handler.search_items(q)
         return [
             item for item in items
             if q in item.get('nev', '').lower()
