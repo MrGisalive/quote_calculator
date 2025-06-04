@@ -16,16 +16,18 @@ Ez a Python alapú, Tkinteres grafikus felülettel rendelkező alkalmazás egy v
 quote_calculator/
 │
 ├── project_app/
-│   ├── main.py                  # Alkalmazás belépési pontja
-│   ├── data/                    # Adatbázis, JSON fájlok
-│   └── gui/                     # GUI logika
-│       ├── main_menu.py
-│       ├── item_selector.py
-│       ├── kivitelezesi_selector.py
-│       └── project_editor/
-│           ├── editor_window.py
-│           ├── helyiseg_list.py
-│           └── exporter.py
+│ ├── main.py # Alkalmazás belépési pontja
+│ ├── data/ # Adatbázis és kivitelezési tételek
+│ │ ├── items.db # SQLite adatbázis anyagköltségekhez
+│ │ └── kivitelezesi_tetelek.json # Előre definiált munkadíjtételek
+│ └── gui/ # GUI logika
+│ ├── main_menu.py
+│ ├── item_selector.py
+│ ├── kivitelezesi_selector.py
+│ └── project_editor/
+│ ├── editor_window.py
+│ ├── helyiseg_list.py
+│ └── exporter.py
 ```
 
 ## 🛠️ Fejlesztői követelmények
@@ -56,7 +58,6 @@ pip install -r requirements.txt
 - Tkinter (a legtöbb Python telepítéssel együtt jön)
 - Függőségek:
   - `python-docx`
-  - `lxml`
 
 ## ▶️ Futás
 
