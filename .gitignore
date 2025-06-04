@@ -1,10 +1,29 @@
+# __pycache__ és bytecode fájlok
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+
+# SQLite adatbázis fájl
 *.db
-*.sqlite3
-.env
+
+# JSON adatfájlok (ha generált vagy érzékeny)
+*.json
+
+# Word dokumentumok (output vagy ideiglenes)
+*.docx
+
+# VSCode / IDE fájlok
 .vscode/
 .idea/
+
+# OS generált fájlok
 .DS_Store
+Thumbs.db
+
+# Python virtuális környezet
+venv/
+.env
+*.env
+
+# ZIP vagy backup fájlok
+*.zip
+*.bak
