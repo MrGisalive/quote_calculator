@@ -20,7 +20,7 @@ __pycache__/
 Thumbs.db
 
 # Python virtuális környezet
-venv/
+.venv/
 .env
 *.env
 
