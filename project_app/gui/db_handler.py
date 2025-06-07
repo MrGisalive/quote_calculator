@@ -9,14 +9,12 @@ class DatabaseHandler:
     """
 
     def __init__(self, db_path=None):
-        # Ha nincs megadva, alapértelmezetten a 'data/items.db' a project_app alatt
         if db_path is None:
             base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             db_path = os.path.join(base_dir, "data", "items.db")
         self.db_path = db_path
 
         if not os.path.isfile(self.db_path):
-            # Emberi, jól olvasható hiba, ha hiányzik az adatbázis
             raise FileNotFoundError(f"Nem található az adatbázis: {self.db_path}")
         
         # SQLite kapcsolat megnyitása, sor-visszaadásra állítva
