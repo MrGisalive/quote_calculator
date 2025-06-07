@@ -3,6 +3,9 @@ from tkinter import ttk, filedialog, messagebox
 import json
 from gui.project_editor import ProjectEditor
 from gui.utils import center_window
+import os
+import subprocess
+import sys
 
 class MainMenu:
     def __init__(self, root):
@@ -16,7 +19,7 @@ class MainMenu:
         style.configure(
             'Menu.TButton',
             font=('Arial', 12, 'bold'),
-            padding=16,
+            padding=10,
             foreground='#272c34',
             background='#e6e9ef',
             borderwidth=0,
@@ -32,7 +35,6 @@ class MainMenu:
             self.root, text="Árajánlat Projektkezelő", font=("Arial", 19, "bold")
         )
         self.title_label.pack(pady=32)
-
         # ---- Főmenü gombok ----
         ttk.Button(
             self.root, text="➕ Új projekt",
@@ -42,6 +44,14 @@ class MainMenu:
         ttk.Button(
             self.root, text="📁 Projekt betöltése",
             command=self.load_project, style='Menu.TButton'
+        ).pack(pady=15, fill='x', padx=50)
+
+        # Dokumentumok megnyitása
+        ttk.Button(
+            self.root,
+            text="📂 Dokumentumok mappa megnyitása",
+            command=self.open_documents_folder,
+            style='Menu.TButton'
         ).pack(pady=15, fill='x', padx=50)
 
         ttk.Button(
@@ -128,6 +138,22 @@ class MainMenu:
             )
         except Exception as e:
             messagebox.showerror("Hiba", f"Nem sikerült a projekt betöltése: {e}")
+    def open_documents_folder(self):
+        """
+        Megnyitja a projektek mappát a rendszer alapértelmezett fájlkezelőjében.
+        """
+        projects_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'projektek'))
+        if not os.path.exists(projects_dir):
+            os.makedirs(projects_dir)
+        try:
+            if sys.platform.startswith('win'):
+                os.startfile(projects_dir)
+            elif sys.platform.startswith('darwin'):
+                subprocess.Popen(['open', projects_dir])
+            else:
+                subprocess.Popen(['xdg-open', projects_dir])
+        except Exception as e:
+            messagebox.showerror("Hiba", f"Nem sikerült megnyitni a mappát:\n{e}")
 
 def open_main_menu(root):
     """
