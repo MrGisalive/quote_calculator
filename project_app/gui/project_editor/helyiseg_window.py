@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from gui.item_selector import open_item_selector
-from gui.kivitelezesi_selector import open_kivitelezesi_selector
+from .item_selector import open_item_selector
+from .kivitelezesi_selector import open_kivitelezesi_selector
 from gui.utils import center_window
 
 def open_helyseg_window(parent, adat, db_handler, update_total_callback):

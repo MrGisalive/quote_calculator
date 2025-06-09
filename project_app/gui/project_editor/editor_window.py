@@ -3,7 +3,7 @@ from tkinter import ttk, filedialog, messagebox
 import json
 import os
 from .exporter import export_project_to_word
-from gui.db_handler import DatabaseHandler
+from core.db_handler import DatabaseHandler
 from .helyiseg_list import HelyisegListManager
 from .helyiseg_window import open_helyseg_window
 from gui.utils import center_window
@@ -32,6 +32,7 @@ class ProjectEditor:
         self.editor.title(f"Projekt: {self.projektnev}")
         self.editor.geometry("600x400")
         self.editor.minsize(650, 480)
+        self.editor.grab_set()
         center_window(self.editor, 600, 400)
         self.editor.protocol("WM_DELETE_WINDOW", self.on_close)
         self.editor.columnconfigure(0, weight=1)

@@ -35,6 +35,7 @@ class MainMenu:
             self.root, text="Árajánlat Projektkezelő", font=("Arial", 19, "bold")
         )
         self.title_label.pack(pady=32)
+
         # ---- Főmenü gombok ----
         ttk.Button(
             self.root, text="➕ Új projekt",
@@ -46,7 +47,7 @@ class MainMenu:
             command=self.load_project, style='Menu.TButton'
         ).pack(pady=15, fill='x', padx=50)
 
-        # Dokumentumok megnyitása
+        # Dokumentumok mappa megnyitása
         ttk.Button(
             self.root,
             text="📂 Dokumentumok mappa megnyitása",
@@ -61,12 +62,14 @@ class MainMenu:
 
     def new_project(self):
         """
-        Új projekt létrehozása ablak – egyszerű topbarral, vissza és tovább gombbal.
+        Új projekt létrehozása ablak – hibajelzéssel, piros kiemeléssel.
         """
         window = tk.Toplevel(self.root)
         window.title("Új projekt létrehozása")
         window.geometry("400x250")
         center_window(window, 400, 250)
+        window.grab_set()
+
 
         # ---- Topbar: Vissza és Tovább gombok ----
         style = ttk.Style(window)
@@ -76,48 +79,76 @@ class MainMenu:
         topbar = ttk.Frame(window)
         topbar.pack(side="top", fill="x", padx=0, pady=(0, 10))
 
-        # Vissza gomb (bal felső sarok)
         btn_vissza = ttk.Button(
             topbar, text="⬅️ Vissza", command=window.destroy, style='Vissza.TButton'
         )
         btn_vissza.pack(side="left", padx=12, pady=8)
 
-        # Tovább gomb (jobb felső sarok)
+        # --- Adatbeviteli mezők ---
+        ttk.Label(window, text="Projekt neve:").pack(pady=(10, 2))
+        nev_entry = tk.Entry(window, width=40, font=('Arial', 11))
+        nev_entry.pack(pady=2)
+
+        ttk.Label(window, text="Megrendelő neve:").pack(pady=2)
+        megrendelo_entry = tk.Entry(window, width=40, font=('Arial', 11))
+        megrendelo_entry.pack(pady=2)
+
+        ttk.Label(window, text="Lakcím:").pack(pady=2)
+        cim_entry = tk.Entry(window, width=40, font=('Arial', 11))
+        cim_entry.pack(pady=2)
+
+        # --- Visszaállítja fehérre a mezőt gépeléskor ---
+        def reset_entry_bg(event):
+            event.widget.config(background="white")
+
+        for entry in (nev_entry, megrendelo_entry, cim_entry):
+            entry.bind("<Key>", reset_entry_bg)
+
+        # --- Tovább gomb logika ---
         def tovabb():
             nev = nev_entry.get().strip()
             megrendelo = megrendelo_entry.get().strip()
             cim = cim_entry.get().strip()
-            # Kötelező mezők ellenőrzése
-            if not nev or not megrendelo or not cim:
-                messagebox.showwarning("Hiányzó adat", "Minden mező kitöltése kötelező!")
-                return
-            window.destroy()
-            self.root.withdraw()
-            ProjectEditor(self.root, nev, megrendelo, cim)
+            # Minden mező vissza fehér
+            nev_entry.config(background="white")
+            megrendelo_entry.config(background="white")
+            cim_entry.config(background="white")
+
+            # Ellenőrizzük, hogy mindhárom mező ki van-e töltve
+            if nev and megrendelo and cim:
+                window.destroy()
+                self.root.withdraw()
+                ProjectEditor(self.root, nev, megrendelo, cim)
+            else:
+                messagebox.showwarning("Hiányzó adat", "Minden mező kitöltése kötelező!", parent=window)
+                if not nev:
+                    nev_entry.config(background="#ffcccc")
+                if not megrendelo:
+                    megrendelo_entry.config(background="#ffcccc")
+                if not cim:
+                    cim_entry.config(background="#ffcccc")
 
         btn_tovabb = ttk.Button(
             topbar, text="Tovább →", command=tovabb, style='Tovabb.TButton'
         )
         btn_tovabb.pack(side="right", padx=12, pady=8)
-
-        # ---- Projekt adatai mezők ----
-        ttk.Label(window, text="Projekt neve:").pack(pady=(10, 2))
-        nev_entry = ttk.Entry(window, width=40)
-        nev_entry.pack(pady=2)
-
-        ttk.Label(window, text="Megrendelő neve:").pack(pady=2)
-        megrendelo_entry = ttk.Entry(window, width=40)
-        megrendelo_entry.pack(pady=2)
-
-        ttk.Label(window, text="Lakcím:").pack(pady=2)
-        cim_entry = ttk.Entry(window, width=40)
-        cim_entry.pack(pady=2)
-
+        
     def load_project(self):
         """
-        Meglévő projekt betöltése JSON-ból.
+        Meglévő projekt betöltése JSON-ból, mindig a projektek mappájából.
         """
-        filepath = filedialog.askopenfilename(filetypes=[("JSON fájl", "*.json")])
+        base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+        projects_dir = os.path.join(base_dir, 'projektek')
+
+        if not os.path.exists(projects_dir):
+            os.makedirs(projects_dir)
+
+        # --- Fájlkiválasztó, alapértelmezett mappa a projektek mappa ---
+        filepath = filedialog.askopenfilename(
+            filetypes=[("JSON fájl", "*.json")],
+            initialdir=projects_dir,
+            title="Projekt betöltése"
+        )
         if filepath:
             self._open_project(filepath)
 
@@ -138,6 +169,7 @@ class MainMenu:
             )
         except Exception as e:
             messagebox.showerror("Hiba", f"Nem sikerült a projekt betöltése: {e}")
+
     def open_documents_folder(self):
         """
         Megnyitja a projektek mappát a rendszer alapértelmezett fájlkezelőjében.
