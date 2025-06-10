@@ -12,6 +12,7 @@ def open_helyseg_window(parent, adat, db_handler, update_total_callback):
     win.title(adat['nev'])
     win.geometry("850x600")
     center_window(win, 850, 600)
+    win.grab_set()
 
     # ---- Vissza gomb TOPBAR ----
     style = ttk.Style(win)

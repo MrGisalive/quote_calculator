@@ -1,16 +1,16 @@
 {
     "projektnev": "asd",
     "megrendelo": "asd",
-    "cim": "asd",
+    "cim": "asdasdasd",
     "helyisegek": [
         {
-            "nev": "asdasd",
+            "nev": "aswdasdasd",
             "tetel_lista": [
                 {
                     "nev": "Commel kismegszakító 1P B 20A 6kA Commel 465-120",
                     "egyseg": "db",
                     "egysegar": 650,
-                    "mennyiseg": 7,
+                    "mennyiseg": 9,
                     "megjegyzes": ""
                 }
             ],
@@ -19,7 +19,35 @@
                     "nev": "Kábelcsatorna elhelyezése",
                     "egyseg": "fm",
                     "egysegar": 1500,
-                    "mennyiseg": 77,
+                    "mennyiseg": 4,
+                    "megjegyzes": ""
+                },
+                {
+                    "nev": "Világítási áramkör kiépítése",
+                    "egyseg": "db",
+                    "egysegar": 13000,
+                    "mennyiseg": 8,
+                    "megjegyzes": ""
+                },
+                {
+                    "nev": "Vezeték behúzás falban",
+                    "egyseg": "fm",
+                    "egysegar": 2500,
+                    "mennyiseg": 5,
+                    "megjegyzes": ""
+                },
+                {
+                    "nev": "Villanytűzhely tápkábel kiépítése",
+                    "egyseg": "fm",
+                    "egysegar": 7000,
+                    "mennyiseg": 1,
+                    "megjegyzes": ""
+                },
+                {
+                    "nev": "Sütő tápkábel kiépítése",
+                    "egyseg": "fm",
+                    "egysegar": 7000,
+                    "mennyiseg": 3,
                     "megjegyzes": ""
                 }
             ]

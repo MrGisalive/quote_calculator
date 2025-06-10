@@ -7,6 +7,7 @@ from core.db_handler import DatabaseHandler
 from .helyiseg_list import HelyisegListManager
 from .helyiseg_window import open_helyseg_window
 from gui.utils import center_window
+from gui.utils import open_folder_in_explorer
 
 # Központi útvonalak, hogy mindig a projekthez képest dolgozzunk
 CURRENT_FILE = os.path.abspath(__file__)
@@ -72,6 +73,13 @@ class ProjectEditor:
         ttk.Label(project_details, text=f"Megrendelő neve: {self.megrendelo}", font=("Arial", 10)).grid(row=1, column=0, sticky='w')
         ttk.Label(project_details, text=f"Lakcím: {self.cim}", font=("Arial", 10)).grid(row=2, column=0, sticky='w')
 
+        # --- Szerkesztés gomb ---
+        btn_edit = ttk.Button(
+            project_details, text="✏️ Szerkesztés",
+            command=self.edit_project_meta
+        )
+        btn_edit.grid(row=0, column=1, rowspan=3, padx=12, sticky="ne")
+
         # --- Helyiségek kezelő ---
         self.helyiseg_manager = HelyisegListManager(
             container, self.helyisegek,
@@ -88,8 +96,8 @@ class ProjectEditor:
         btn_frame.columnconfigure((0, 1, 2, 3), weight=1)
         ttk.Button(btn_frame, text="📁 Mentés Másként", command=self.save_project).grid(row=0, column=0, sticky="ew", padx=2)
         ttk.Button(btn_frame, text="💾 Gyors Mentés", command=self.auto_save_project).grid(row=0, column=1, sticky="ew", padx=2)
-        ttk.Button(btn_frame, text="❌ Projekt bezárása", command=self.on_close).grid(row=0, column=2, sticky="ew", padx=2)
         ttk.Button(btn_frame, text="📝 Dokumentum generálás", command=self.export_to_doc).grid(row=0, column=3, sticky="ew", padx=2)
+        ttk.Button(btn_frame, text="📂 Dokumentumok mappa", command=lambda: open_folder_in_explorer(PROJECTS_DIR, self.editor)).grid(row=1, column=3, sticky="ew", padx=2)
 
         # --- Összeg kiírása ---
         self.osszeg_label = ttk.Label(
@@ -97,7 +105,16 @@ class ProjectEditor:
         self.osszeg_label.grid(row=3, column=0, sticky="w", padx=15, pady=(6, 10))
 
         self.update_project_total()
-
+    def edit_project_meta(self):
+        eredmeny = open_project_meta_editor(
+            self.editor, self.projektnev, self.megrendelo, self.cim
+        )
+        if eredmeny:
+            self.projektnev, self.megrendelo, self.cim = eredmeny
+            # Címkék frissítése:
+            for widget in self.editor.winfo_children():
+                widget.destroy()
+            self.__init__(self.root, self.projektnev, self.megrendelo, self.cim, self.helyisegek)
     def open_helyseg_window(self, adat, db_handler):
         # Helyiség szerkesztő ablak megnyitása
         open_helyseg_window(self.editor, adat, db_handler, self.update_project_total)
@@ -180,3 +197,84 @@ class ProjectEditor:
                 messagebox.showinfo("Siker", f"A dokumentum elkészült:\n{file_path}")
             except Exception as e:
                 messagebox.showerror("Hiba", f"Hiba történt: {e}")
+
+def open_project_meta_editor(parent, projektnev, megrendelo, cim):
+    """
+    Visszaadja a (projektnev, megrendelo, cim) tuple-t vagy None-t ha Cancel.
+    Hibavisszajelzéssel, modal, középre helyezve.
+    """
+    result = {}
+
+    editor = tk.Toplevel(parent)
+    editor.title("Projekt adatok szerkesztése")
+    editor.geometry("400x230")
+    editor.transient(parent)
+    editor.grab_set()
+    try:
+        # Ha van ilyen függvényed, használd!
+        center_window(editor, 400, 230)
+    except:
+        pass
+
+    # --- Adatmezők ---
+    ttk.Label(editor, text="Projekt neve:").pack(pady=(12,2), anchor="w", padx=12)
+    entry_projnev = tk.Entry(editor, width=38, font=('Arial', 11))
+    entry_projnev.pack(fill="x", padx=12)
+    entry_projnev.insert(0, projektnev)
+
+    ttk.Label(editor, text="Megrendelő neve:").pack(pady=(10,2), anchor="w", padx=12)
+    entry_megrendelo = tk.Entry(editor, width=38, font=('Arial', 11))
+    entry_megrendelo.pack(fill="x", padx=12)
+    entry_megrendelo.insert(0, megrendelo)
+
+    ttk.Label(editor, text="Lakcím:").pack(pady=(10,2), anchor="w", padx=12)
+    entry_cim = tk.Entry(editor, width=38, font=('Arial', 11))
+    entry_cim.pack(fill="x", padx=12)
+    entry_cim.insert(0, cim)
+
+    # --- Reset szín gépeléskor ---
+    def reset_entry_bg(event):
+        event.widget.config(background="white")
+
+    for entry in (entry_projnev, entry_megrendelo, entry_cim):
+        entry.bind("<Key>", reset_entry_bg)
+
+    # --- Gombok ---
+    btn_frame = ttk.Frame(editor)
+    btn_frame.pack(pady=16)
+    
+    def on_ok():
+        nev = entry_projnev.get().strip()
+        megr = entry_megrendelo.get().strip()
+        address = entry_cim.get().strip()
+
+        # Reset színek
+        entry_projnev.config(background="white")
+        entry_megrendelo.config(background="white")
+        entry_cim.config(background="white")
+
+        if nev and megr and address:
+            result["projektnev"] = nev
+            result["megrendelo"] = megr
+            result["cim"] = address
+            editor.destroy()
+        else:
+            messagebox.showwarning("Hiányzó adat", "Minden mező kitöltése kötelező!", parent=editor)
+            if not nev:
+                entry_projnev.config(background="#ffcccc")
+            if not megr:
+                entry_megrendelo.config(background="#ffcccc")
+            if not address:
+                entry_cim.config(background="#ffcccc")
+
+    def on_cancel():
+        editor.destroy()
+
+    ttk.Button(btn_frame, text="OK", command=on_ok, width=12).pack(side="left", padx=8)
+    ttk.Button(btn_frame, text="Mégse", command=on_cancel, width=12).pack(side="left", padx=8)
+
+    entry_projnev.focus_set()
+    editor.wait_window()
+    if "projektnev" in result:
+        return result["projektnev"], result["megrendelo"], result["cim"]
+    return None

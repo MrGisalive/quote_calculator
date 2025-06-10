@@ -247,10 +247,12 @@ def open_kivitelezesi_selector(parent, callback):
         update_selected_list()
         qty_var.set(1)  # Hozzáadás után reset
 
+    selected_list.config(font=("Consolas", 12))  # vagy Courier New
     def update_selected_list():
         selected_list.delete(0, tk.END)
         for name, unit, price, qty in selected_items:
-            selected_list.insert(tk.END, f"{name} ({unit}) x{qty} - {price} Ft/db")
+            sor = f"{name:32.32} | {unit:^7} |  x{qty:>3} | {price:>7} Ft/db"
+            selected_list.insert(tk.END, sor)
 
     # --- Eseménykötések ---
     add_btn.config(command=add_to_selected)

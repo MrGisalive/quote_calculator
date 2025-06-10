@@ -4,8 +4,13 @@ import json
 from gui.project_editor import ProjectEditor
 from gui.utils import center_window
 import os
-import subprocess
-import sys
+from gui.utils import open_folder_in_explorer
+
+# Központi útvonalak, hogy mindig a projekthez képest dolgozzunk
+CURRENT_FILE = os.path.abspath(__file__)
+PROJECT_EDITOR_DIR = os.path.dirname(CURRENT_FILE)
+PROJECT_APP_DIR = os.path.abspath(os.path.join(PROJECT_EDITOR_DIR, '..', '..', '..'))
+PROJECTS_DIR = os.path.join(PROJECT_APP_DIR, "projektek")
 
 class MainMenu:
     def __init__(self, root):
@@ -51,9 +56,10 @@ class MainMenu:
         ttk.Button(
             self.root,
             text="📂 Dokumentumok mappa megnyitása",
-            command=self.open_documents_folder,
+            command=lambda: open_folder_in_explorer(PROJECTS_DIR, self.root),
             style='Menu.TButton'
         ).pack(pady=15, fill='x', padx=50)
+
 
         ttk.Button(
             self.root, text="❌ Kilépés",
@@ -169,23 +175,6 @@ class MainMenu:
             )
         except Exception as e:
             messagebox.showerror("Hiba", f"Nem sikerült a projekt betöltése: {e}")
-
-    def open_documents_folder(self):
-        """
-        Megnyitja a projektek mappát a rendszer alapértelmezett fájlkezelőjében.
-        """
-        projects_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'projektek'))
-        if not os.path.exists(projects_dir):
-            os.makedirs(projects_dir)
-        try:
-            if sys.platform.startswith('win'):
-                os.startfile(projects_dir)
-            elif sys.platform.startswith('darwin'):
-                subprocess.Popen(['open', projects_dir])
-            else:
-                subprocess.Popen(['xdg-open', projects_dir])
-        except Exception as e:
-            messagebox.showerror("Hiba", f"Nem sikerült megnyitni a mappát:\n{e}")
 
 def open_main_menu(root):
     """
